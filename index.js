@@ -1,5 +1,5 @@
 var htmlparser = require("htmlparser2");
-var gutil = require("gulp-util");
+var ext = require("replace-ext");
 var through = require("through2"); // npm install --save through2
 
 module.exports = function() {
@@ -25,7 +25,7 @@ module.exports = function() {
         file instanceof Buffer ? file.toString() : file.contents.toString()
       );
       for (let tag of htmlp._cbs.dom) check_tag(tag);
-      file.path = gutil.replaceExtension(file.path, ".json");
+      file.path = ext(file.path, ".json");
       file.contents = new Buffer(
         JSON.stringify({
           tags: Array.from(usage.tags),
